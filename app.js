@@ -8,6 +8,7 @@ const session = require('express-session');
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const usersRouter = require('./routes/users');
+const registerRouter = require('./routes/register');
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use(function(req, res, next){
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
+app.use('/register', registerRouter);
 
 app.get('/logout', function(req, res){
   // destroy the user's session to log them out
@@ -61,7 +63,7 @@ function restrict(req, res, next) {
   }
 }
 app.get('/restricted', restrict, function(req, res){
-  res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
+  res.send(`Wahoo! welcome back, ${req.session.user.name}! click to <a href="/logout">logout</a>`);
 });
 
 // catch 404 and forward to error handler
